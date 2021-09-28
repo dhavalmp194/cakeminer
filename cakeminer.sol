@@ -1,11 +1,3 @@
-/**
- *Submitted for verification at BscScan.com on 2021-03-22
-*/
-
-/**
- *Website: https://bnbMiner.finance
-*/
-
 pragma solidity ^0.4.26; // solhint-disable-line
 
 
@@ -137,25 +129,19 @@ contract CakeMiner{
         marketEggs=SafeMath.add(marketEggs,hasEggs);
         cake.transfer(ceoAddress, fee2);
         cake.transfer(ceoAddress2, fee-fee2);
-        // ceoAddress.transfer(fee2);
-        // ceoAddress2.transfer(fee-fee2);
         cake.transfer(msg.sender, SafeMath.sub(eggValue,fee));
-        // msg.sender.transfer(SafeMath.sub(eggValue,fee)
-        
+
     }
     function buyEggs(address ref, uint price) public payable{
         require(initialized);
         uint256 eggsBought=calculateEggBuy(price,SafeMath.sub(cake.balanceOf(address(this)),price));
         cake.transferFrom(msg.sender, address(this), price);
-        // uint256 eggsBought=calculateEggBuy(msg.value,SafeMath.sub(address(this).balance,msg.value));
         eggsBought=SafeMath.sub(eggsBought,devFee(eggsBought));
-        // uint256 fee=devFee(msg.value);
         uint256 fee=devFee(price);
         uint256 fee2=fee/2;
         cake.transfer(ceoAddress, fee2);
         cake.transfer(ceoAddress2, fee-fee2);
-        // ceoAddress.transfer(fee2);
-        // ceoAddress2.transfer(fee-fee2);
+
         claimedEggs[msg.sender]=SafeMath.add(claimedEggs[msg.sender],eggsBought);
         hatchEggs(ref);
     }
