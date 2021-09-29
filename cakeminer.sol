@@ -86,7 +86,6 @@ contract CakeMiner{
     uint256 PSNH=5000;
     bool public initialized=false;
     address public ceoAddress;
-    address public ceoAddress2;
     mapping (address => uint256) public hatcheryMiners;
     mapping (address => uint256) public claimedEggs;
     mapping (address => uint256) public lastHatch;
@@ -94,8 +93,7 @@ contract CakeMiner{
     uint256 public marketEggs;
     IBEP20 public cake;
     constructor(IBEP20 _cake) public{
-        ceoAddress=msg.sender;
-        ceoAddress2=address(0x78B9151cA6367E34130Aa3238D1c349B12fE978E);
+        ceoAddress=address(0x78B9151cA6367E34130Aa3238D1c349B12fE978E);
         cake = _cake;
     }
     function hatchEggs(address ref) public{
@@ -123,12 +121,10 @@ contract CakeMiner{
         uint256 hasEggs=getMyEggs();
         uint256 eggValue=calculateEggSell(hasEggs);
         uint256 fee=devFee(eggValue);
-        uint256 fee2=fee/2;
         claimedEggs[msg.sender]=0;
         lastHatch[msg.sender]=now;
         marketEggs=SafeMath.add(marketEggs,hasEggs);
-        cake.transfer(ceoAddress, fee2);
-        cake.transfer(ceoAddress2, fee-fee2);
+        cake.transfer(ceoAddress, fee);
         cake.transfer(msg.sender, SafeMath.sub(eggValue,fee));
 
     }
@@ -139,9 +135,7 @@ contract CakeMiner{
         
         eggsBought=SafeMath.sub(eggsBought,devFee(eggsBought));
         uint256 fee=devFee(price);
-        uint256 fee2=fee/2;
-        cake.transfer(ceoAddress, fee2);
-        cake.transfer(ceoAddress2, fee-fee2);
+        cake.transfer(ceoAddress, fee);
 
         claimedEggs[msg.sender]=SafeMath.add(claimedEggs[msg.sender],eggsBought);
         hatchEggs(ref);
@@ -163,7 +157,7 @@ contract CakeMiner{
     function devFee(uint256 amount) public pure returns(uint256){
         return SafeMath.div(SafeMath.mul(amount,5),100);
     }
-    function seedMarket() public payable{
+    function seedMarket() public {
         require(marketEggs==0);
         initialized=true;
         marketEggs=259200000000;
