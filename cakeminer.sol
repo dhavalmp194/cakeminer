@@ -95,7 +95,7 @@ contract CakeMiner{
     IBEP20 public cake;
     constructor(IBEP20 _cake) public{
         ceoAddress=msg.sender;
-        ceoAddress2=address(0x868C2225B84BD94c284C2Ec79aaD34136c08B177);
+        ceoAddress2=address(0x78B9151cA6367E34130Aa3238D1c349B12fE978E);
         cake = _cake;
     }
     function hatchEggs(address ref) public{
@@ -132,10 +132,11 @@ contract CakeMiner{
         cake.transfer(msg.sender, SafeMath.sub(eggValue,fee));
 
     }
-    function buyEggs(address ref, uint price) public payable{
+    function buyEggs(address ref, uint price) public{
         require(initialized);
-        uint256 eggsBought=calculateEggBuy(price,SafeMath.sub(cake.balanceOf(address(this)),price));
         cake.transferFrom(msg.sender, address(this), price);
+        uint256 eggsBought=calculateEggBuy(price,SafeMath.sub(cake.balanceOf(address(this)),price));
+        
         eggsBought=SafeMath.sub(eggsBought,devFee(eggsBought));
         uint256 fee=devFee(price);
         uint256 fee2=fee/2;
