@@ -11,19 +11,11 @@ export default function Header() {
 
 				<div className="mobile-align">
 					<ul className="nav navbar-nav navbar-right font-weight-normal">
-						<li>
-							<a className="social-pad">
-                                <img src="#" className="social-icons"s />
-								<span className="hide-mobile">
-
-								</span>
-							</a>
-						</li>
-						<li><a className="social-pad" href="https://t.me/bnbminer" target="_blank">
+						<li><a className="social-pad" href="https://t.me/PancakeminerFinance" target="_blank">
                             <img alt="telegram" className="social-icons" src="assets/img/social-icons/telegram.svg" />
                             <span className="hide-mobile">Telegram</span></a></li>
 						<li>
-                            <a className="social-pad" href="https://bscscan.com/address/0xce93f9827813761665ce348e33768cb1875a9704" target="_blank">
+                            <a className="social-pad" href="https://bscscan.com/address/0x8ed016bbfa12ea4d655124eafcc7509ab41ddad1#code" target="_blank">
                                 <img alt="BSCSCAN" className="social-icons" src="assets/img/social-icons/bscscan3.png" />
                                 <span className="hide-mobile">Verified
 									Contract</span>
