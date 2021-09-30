@@ -1,4 +1,4 @@
-import {SET_CONTRACT_BALANCE, SET_ALLOWANCE, SET_MY_MINERS, SET_DIGGING_PER_HOUR, SET_SELL_EXAMPLE, SET_SELL_PRICE, SET_SECONDS_UNTIL_FULL, SET_USER_BALANCE} from '../types'
+import {SET_CONTRACT_BALANCE, SET_ALLOWANCE, SET_MY_MINERS, SET_DIGGING_PER_HOUR, SET_SELL_EXAMPLE, SET_SELL_PRICE, SET_SECONDS_UNTIL_FULL, SET_USER_BALANCE, SET_BTN_TXT} from '../types'
 
 const initialState = {
     allowanceVal: 0,
@@ -8,7 +8,8 @@ const initialState = {
     diging: 0,
     sellExample: "",
     sellPrice: 0,
-    secondsUntilFull: 0
+    secondsUntilFull: 0,
+    btnEgg:0
 }
 
 export default function (state = initialState, action) {
@@ -53,6 +54,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 secondsUntilFull: payload
+            }
+        case SET_BTN_TXT:
+            return {
+                ...state,
+                btnEgg: payload
             }
         default:
             return state

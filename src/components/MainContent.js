@@ -2,19 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Col, Container, Row } from 'reactstrap'
-import { approveAllowance, getAllMineData, hireMiners, hireMoreMiners, pocketCake } from '../redux/actions/minerData';
+import { approveAllowance, btnEggVal, getAllMineData, hireMiners, hireMoreMiners, pocketCake } from '../redux/actions/minerData';
 
 export default function MainContent() {
     const [cakeAmount, setCakeAmount] = useState(1)
     const {walletAddress} = useSelector(state => state.wallet)
-    const {allowanceVal, contractBalance, myMiners, diging, sellExample, sellPrice, secondsUntilFull, userBalance} = useSelector(state => state.minerData)
+    const {allowanceVal, contractBalance, myMiners, diging, sellExample, sellPrice, secondsUntilFull, userBalance, btnEgg} = useSelector(state => state.minerData)
     const dispatch = useDispatch();
     useEffect(() => {
         if(walletAddress){
             dispatch(getAllMineData(walletAddress))
         }
     }, [walletAddress])
-
+    useEffect(() => {
+        if(cakeAmount){
+            dispatch(btnEggVal(cakeAmount))
+        }
+    },[cakeAmount])
     const handleApproval = () => {
         if(!walletAddress){
             toast.error("please Provide a wallet address")
@@ -29,7 +33,7 @@ export default function MainContent() {
         } else if(cakeAmount <= 0){
             toast.error("please Provide cake amount.")
         } else {
-            dispatch(hireMiners(cakeAmount, walletAddress))
+            dispatch(hireMiners(walletAddress, cakeAmount))
         }
     }
     const handleHireMoreMiner = () => {
@@ -101,7 +105,7 @@ export default function MainContent() {
                             allowanceVal ?
                                 <a className="btn btn-lg btn-buy"
                                 role="button" onClick={handleHireMiner}>
-                                    Hires <span id="eggstobuy">?</span> Miners
+                                    Hires <span id="eggstobuy">{btnEgg}</span> Miners
                                 </a> :
                                 <a className="btn btn-lg btn-buy" onClick={handleApproval}>
                                     Approve

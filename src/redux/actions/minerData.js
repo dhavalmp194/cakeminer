@@ -1,9 +1,10 @@
 import { toast } from "react-toastify"
 import { formatEggs, formatTrxValue, translateQuantity } from "../../utils"
 import { buyEggs, calculateEggBuySimple, calculateEggSell, contractBalance, devFee, enableEPIToken, getMyEggs, getMyMinersFromContract, getTokenAllowance, hatchEggs, sellEggs, userBalance } from "../../utils/contractMethods/wallet"
-import { SET_CONTRACT_BALANCE, SET_ALLOWANCE, SET_MY_MINERS, SET_DIGGING_PER_HOUR, SET_SELL_EXAMPLE, SET_SELL_PRICE, SET_SECONDS_UNTIL_FULL, SET_USER_BALANCE } from "../types"
+import { SET_CONTRACT_BALANCE, SET_ALLOWANCE, SET_MY_MINERS, SET_DIGGING_PER_HOUR, SET_SELL_EXAMPLE, SET_SELL_PRICE, SET_SECONDS_UNTIL_FULL, SET_USER_BALANCE, SET_BTN_TXT } from "../types"
 import { setLaoding } from "./layout"
 import Web3 from "web3"
+import BigNumber from "bignumber.js"
 const web3 = new Web3(window.ethereum);
 var lastNumEggs=-1
 const lastNumMiners=-1
@@ -58,7 +59,7 @@ export const getMyMiners = (userAddress) => async dispatch => {
         // SET_DIGGING_PER_HOUR
         dispatch({
             type: SET_DIGGING_PER_HOUR,
-            payload: parseFloat(res) * 60 * 60
+            payload: translateQuantity(parseFloat(res) * 60 * 60)
         })
         let eggs = await calculateEggBuySimple(0.1);
         let fee = await devFee(eggs);
@@ -68,6 +69,20 @@ export const getMyMiners = (userAddress) => async dispatch => {
         })
     } catch (error) {
         console.error('%c 🌮 error: ', 'font-size:20px;background-color: #F5CE50;color:#fff;', error);
+    }
+}
+export const btnEggVal = (amount) => async dispatch => {
+    try {
+        // amount = new BigNumber(amount).multipliedBy(1e16) 
+        let eggs = await calculateEggBuySimple(amount);
+        dispatch({
+            type: SET_BTN_TXT,
+            payload: eggs
+        })
+        
+    } catch (error) {
+        console.log('%c 🍯 error: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', error);
+        
     }
 }
 
@@ -80,7 +95,7 @@ export const updateSellPrice = (userAddress) => async dispatch => {
             let sellPrice = formatTrxValue(web3.utils.fromWei(sum) - web3.utils.fromWei(fee))
             dispatch({
                 type: SET_SELL_PRICE,
-                payload: sellPrice
+                payload: translateQuantity(sellPrice)
             })
         }
         if(lastNumEggs!=eggs){
@@ -135,7 +150,9 @@ export const hireMiners = (userAddress, amount) => async dispatch => {
     console.log('%c 🍮 userAddress, amount: ', 'font-size:20px;background-color: #33A5FF;color:#fff;', userAddress, amount);
     try {
         dispatch(setLaoding(true))
-        let res = await buyEggs(userAddress, amount)
+        amount = new BigNumber(amount).multipliedBy(1e16) 
+        let res = await buyEggs(userAddress, amount.toString())
+        dispatch(getAllMineData(userAddress))
         console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
         toast.success("Miner highered")
         dispatch(setLaoding(false))
@@ -154,6 +171,7 @@ export const hireMoreMiners = (userAddress) => async dispatch => {
         let res = await hatchEggs(userAddress)
         console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
         toast.success("More miner hired")
+        dispatch(getAllMineData(userAddress))
         dispatch(setLaoding(false))
         
     } catch (error) {
@@ -170,6 +188,7 @@ export const pocketCake = (userAddress) => async dispatch => {
         let res = await sellEggs(userAddress)
         console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
         toast.success("Poket your cake successful")
+        dispatch(getAllMineData(userAddress))
         dispatch(setLaoding(false))
         
     } catch (error) {
