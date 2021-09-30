@@ -1,14 +1,15 @@
+import { useSelector } from 'react-redux';
 import { Container } from 'reactstrap';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import LoaderComponent from './components/LoaderComponent';
 import MainContent from './components/MainContent';
-import Modal from './components/Modal';
-import NavBar from './components/NavBar';
-import Tabs from './components/Tabs';
 
 function App() {
+  const {loading} = useSelector(state => state.layout)
   return (
     <div className="App">
+      <LoaderComponent loading={loading} />
       <Container>
         <Header />
         <MainContent />

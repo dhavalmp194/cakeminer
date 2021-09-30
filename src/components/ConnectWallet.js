@@ -11,16 +11,19 @@ import { setBinanceWalletAdress, setBinanceWalletDisconnected, setMetamaskWallet
 
 
 export default function ConnectWallet() {
-    const [modal, setModal] = useState(false);
     const dispatch = useDispatch()
-    const { walletAddress, metamaskWalletDisconnected, binanceWalletDisconnected, walletType } = useSelector(state => state.wallet)
-    
+    // local state
+    const [modal, setModal] = useState(false);
     const [walletAddressDisp, setWalletAddressDisp] = useState("")
-    const toggle = () => setModal(!modal);
     
+    // redux state 
+    const { walletAddress, metamaskWalletDisconnected, binanceWalletDisconnected, walletType } = useSelector(state => state.wallet)
+    // wallet connections
     const { active, account:metamaskAccount, activate, deactivate } = useWeb3React()
-    
     const { account:binanceAccount, connect, reset, status } = useWallet()
+    
+    const toggle = () => setModal(!modal);
+
     useEffect(() => {
         if(!metamaskWalletDisconnected && walletType === "metamask"){
             dispatch(setMetamaskWalletDisconnected(false))

@@ -1,3 +1,6 @@
+// Layout Type
+export const SET_LOADER="SET_LOADER"
+
 // Users Type
 export const SET_WALLET_TYPE = "SET_WALLET_TYPE"
 export const SET_WALLET = "SET_WALLET"
@@ -7,3 +10,4 @@ export const SET_METAMASK_WALLET = "SET_METAMASK_WALLET"
 
 // Miner data
 export const SET_CONTRACT_BALANCE="SET_CONTRACT_BALANCE"
+export const SET_ALLOWANCE="SET_ALLOWANCE"

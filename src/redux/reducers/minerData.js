@@ -1,7 +1,8 @@
-import {SET_CONTRACT_BALANCE} from '../types'
+import {SET_CONTRACT_BALANCE, SET_ALLOWANCE} from '../types'
 
 const initialState = {
-    contractBalance: 0
+    contractBalance: 0,
+    allowanceVal: 0,
 }
 
 export default function (state = initialState, action) {
@@ -12,6 +13,11 @@ export default function (state = initialState, action) {
                 ...state,
                 contractBalance: payload
             }
+            case SET_ALLOWANCE:
+                return {
+                    ...state,
+                    allowanceVal: payload
+                }
         default:
             return state
     }

@@ -1,13 +1,21 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap'
-import { getAllMineData } from '../redux/actions/minerData';
+import { approveAllowance, getAllMineData } from '../redux/actions/minerData';
 
 export default function MainContent() {
+    const {walletAddress} = useSelector(state => state.wallet)
+    const {contractBalance, allowanceVal} = useSelector(state => state.minerData)
     const dispatch = useDispatch();
+    
     useEffect(() => {
-        dispatch(getAllMineData())
-    }, [])
+        if(walletAddress){
+            dispatch(getAllMineData(walletAddress))
+        }
+    }, [walletAddress])
+    const handleApproval = () => {
+        dispatch(approveAllowance(walletAddress))
+    }
     return (
         <Container>
             <center>
@@ -58,10 +66,16 @@ export default function MainContent() {
                             <input className="form-control" id="ethtospend" step="1"
                                 type="number" value="1" /> <span className="bnb-text">BNB</span>
                         </div>
-                            <a className="btn btn-lg btn-buy"
-                            role="button">
-                                Hires <span id="eggstobuy">?</span> Miners
-                            </a>
+                        {
+                            allowanceVal ?
+                                <a className="btn btn-lg btn-buy"
+                                role="button">
+                                    Hires <span id="eggstobuy">?</span> Miners
+                                </a> :
+                                <a className="btn btn-lg btn-buy" onClick={handleApproval}>
+                                    Approve
+                                </a>
+                        }
                     </Col>
                     <Col md={6}>
                             <p>
