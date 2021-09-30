@@ -80,8 +80,66 @@ export const contractBalance = () => {
                 reject(reject)
             });
         } catch (error) {
-            console.error('%c 🌭 error: ', 'font-size:20px;background-color: #FCA650;color:#fff;', error);
+            throw error
         }
     })
 }
 
+export const buyEggs = (userAddress, amount) => {
+    return new Promise((resolve,reject) => {
+        amount = new BigNumber(amount).multipliedBy(1e18);
+        try {
+            const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
+            minerContract.methods
+            .buyEggs(userAddress, amount.toString())
+            .send({from: userAddress})
+            .then(result => {
+                result = new BigNumber(result)
+                resolve(result)
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
+
+export const hatchEggs = (userAddress) => {
+    return new Promise((resolve,reject) => {
+        try {
+            const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
+            minerContract.methods
+            .hatchEggs(userAddress)
+            .send({from: userAddress})
+            .then(result => {
+                resolve(result)
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
+
+export const sellEggs = (userAddress) => {
+    return new Promise((resolve,reject) => {
+        try {
+            const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
+            minerContract.methods
+            .sellEggs()
+            .send({from: userAddress})
+            .then(result => {
+                resolve(result)
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}

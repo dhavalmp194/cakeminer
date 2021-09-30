@@ -1,25 +1,56 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Col, Container, Row } from 'reactstrap'
-import { approveAllowance, getAllMineData } from '../redux/actions/minerData';
+import { approveAllowance, getAllMineData, hireMiners, hireMoreMiners, pocketCake } from '../redux/actions/minerData';
 
 export default function MainContent() {
+    const [cakeAmount, setCakeAmount] = useState(1)
     const {walletAddress} = useSelector(state => state.wallet)
     const {contractBalance, allowanceVal} = useSelector(state => state.minerData)
     const dispatch = useDispatch();
-    
     useEffect(() => {
         if(walletAddress){
             dispatch(getAllMineData(walletAddress))
         }
     }, [walletAddress])
+
     const handleApproval = () => {
-        dispatch(approveAllowance(walletAddress))
+        if(!walletAddress){
+            toast.error("please Provide a wallet address")
+        }else{
+            dispatch(approveAllowance(walletAddress))
+        }
+    }
+    // const hireMiners
+    const handleHireMiner = () => {
+        if(!walletAddress){
+            toast.error("please Provide a wallet address")
+        } else if(cakeAmount <= 0){
+            toast.error("please Provide cake amount.")
+        } else {
+            dispatch(hireMiners(cakeAmount, walletAddress))
+        }
+    }
+    const handleHireMoreMiner = () => {
+        if(!walletAddress){
+            toast.error("please Provide a wallet address")
+        } else {
+            dispatch(hireMoreMiners(walletAddress))
+        }
+    }
+    // pocketCake
+    const handlePocketCake = () => {
+        if(!walletAddress){
+            toast.error("please Provide a wallet address")
+        } else {
+            dispatch(pocketCake(walletAddress))
+        }
     }
     return (
         <Container>
             <center>
-                <img alt="BNB Miner" src="assets/img/bnbminer1095apr.png" href="index.html" width="100%" height="auto" />
+                <img alt="Cake Miner" src="assets/img/bnbminer1095apr.png" href="index.html" width="100%" height="auto" />
             </center>
             <div className="jumbotron">
                 <div className="container-fluid miners-tally-container">
@@ -62,14 +93,14 @@ export default function MainContent() {
                 <Row>
                     <Col md={6} className="nopad-left nopad-lr">
                         <div className="spend-input">
-                            <p style={{color:"#354D5F",fontSize:"14px"}}>Enter BNB Amount & Click Hire Below</p>
+                            <p style={{color:"#354D5F",fontSize:"14px"}}>Enter Cake Amount & Click Hire Below</p>
                             <input className="form-control" id="ethtospend" step="1"
-                                type="number" value="1" /> <span className="bnb-text">BNB</span>
+                                type="number" value={cakeAmount}  onChange={e => setCakeAmount(e.target.value)} /> <span className="bnb-text">Cake</span>
                         </div>
                         {
                             allowanceVal ?
                                 <a className="btn btn-lg btn-buy"
-                                role="button">
+                                role="button" onClick={handleHireMiner}>
                                     Hires <span id="eggstobuy">?</span> Miners
                                 </a> :
                                 <a className="btn btn-lg btn-buy" onClick={handleApproval}>
@@ -79,11 +110,21 @@ export default function MainContent() {
                     </Col>
                     <Col md={6}>
                             <p>
-                                <a className="btn btn-lg btn-hatch w-100"
-                                role="button">Hire More Miners</a>
+                                <a 
+                                    className="btn btn-lg btn-hatch w-100"
+                                    onClick={handleHireMoreMiner}
+                                    role="button">
+                                        Hire More Miners
+                                </a>
                             </p>
-                        <p><a className="btn btn-lg btn-sell w-100"
-                                role="button">Pocket Your BNB</a></p>
+                        <p>
+                            <a 
+                                className="btn btn-lg btn-sell w-100"
+                                onClick={handlePocketCake}
+                                role="button">
+                                    Pocket Your Cake
+                            </a>
+                        </p>
                     </Col>
                 </Row>
 
