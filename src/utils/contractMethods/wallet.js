@@ -56,7 +56,6 @@ export const getTokenAllowance  = (userAddress) => {
             .allowance(userAddress, minnerAddress)
             .call()
             .then(data => {
-                console.log('%c 🍇 data: ', 'font-size:20px;background-color: #FCA650;color:#fff;', data);
                 data = new BigNumber(data)
                 resolve(!data.eq(new BigNumber(0)))
             })

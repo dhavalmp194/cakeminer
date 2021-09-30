@@ -37,7 +37,6 @@ export const approveAllowance = userAddress => async dispatch =>{
     try {
         dispatch(setLaoding(true))
         let res  = await enableEPIToken(userAddress);
-        console.log('%c 🥨 res: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', res);
         dispatch(getUserAllowance(userAddress))
         dispatch(setLaoding(false))
     } catch (error) {
