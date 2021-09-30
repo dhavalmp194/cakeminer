@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Col, Row } from 'reactstrap'
-
+const BASE_URL = "http://localhost:3000/"
 export default function Footer() {
+	const [refferLink, setRefferLink] = useState("")
+	const {walletAddress} = useSelector(state => state.wallet);
+	useEffect(()=>{
+		if(walletAddress){
+			setRefferLink(`${BASE_URL}?ref=${walletAddress}`)
+		} else {
+			setRefferLink("")
+		}
+	},[walletAddress])
     return (
         <footer className="footer">
 				<Row>
@@ -9,13 +19,13 @@ export default function Footer() {
 						<h4><u>Sustainability</u></h4>
 						    <p>
                                 Unlike it's predecessors which paid 100% daily, causing instant and massive inflation.
-							    BNB Miner pays a modest 3% daily, allowing investors to rest easy knowing that their
+							    Cake Miner pays a modest 3% daily, allowing investors to rest easy knowing that their
 							    investments have unlimited growth potential and a maximum, improbable risk of less than
 							    3%.
                             </p>
 
 							<h4><u>Verified Public Contract</u></h4>
-							<p>The BNB Miner contract is public, verified and can be viewed here on <a
+							<p>The Cake Miner contract is public, verified and can be viewed here on <a
 									href="https://bscscan.com/address/0xce93f9827813761665ce348e33768cb1875a9704"
 									target="_blank"><u>BSCScan</u></a>.
 							</p>
@@ -24,11 +34,11 @@ export default function Footer() {
 					</Col>
 					<Col lg={6}>
 						<h4><u>Miner Info</u></h4>
-						<p>BNB Miner pays 3% daily, according to the current mining efficiency rate. The mining
+						<p>Cake Miner pays 3% daily, according to the current mining efficiency rate. The mining
 							efficiency rate rises and falls as you and other players hire miners, compound earnings
-							and pocket BNB. </p>
+							and pocket Cake. </p>
 						<p>The object of the game is hiring more miners, sooner and more often than other players.
-							This in turn earns you more BNB faster. Hiring more miners using your daily BNB earnings
+							This in turn earns you more Cake faster. Hiring more miners using your daily Cake earnings
 							will 3x your miners within 30 days or less.</p>
 
 					</Col>
@@ -44,9 +54,9 @@ export default function Footer() {
 						<Col md={12}>
 							<font style={{fontSize:"14px"}}>
 								<center>
-									<p>Share your BNB Miner referral link, our contract pays you a <b>10%</b>
+									<p>Share your Cake Miner referral link, our contract pays you a <b>10%</b>
 										referral fee when anyone uses your link to hire miners: <a
-											id="playerreflink">?
+											id="playerreflink"> {refferLink}
 											<p></p>
                                             <input id="copytextthing" style={{display:"none"}} type="text"
 												value="Hello Worldfdgerh" /></a></p>

@@ -1,7 +1,7 @@
 import {EIPAbi} from "../contracts/EIP20Interface";
 import {MinerAbi} from "../contracts/minerabi";
-import Web3 from "web3"
 import BigNumber from 'bignumber.js';
+import Web3 from "web3"
 const web3 = new Web3(window.ethereum);
 const commaNumber = require('comma-number');
 
@@ -84,7 +84,24 @@ export const contractBalance = () => {
         }
     })
 }
-
+export const userBalance = (userAddress) => { 
+    return new Promise((resolve,reject) => {
+        try {
+            const minerContract = new web3.eth.Contract(EIPAbi, tokenAddress);
+            minerContract.methods.balanceOf(userAddress)
+            .call({from: userAddress}).then(result => {
+                result = new BigNumber(result)
+                console.log('%c 🍥 result: ', 'font-size:20px;background-color: #EA7E5C;color:#fff;', result);
+                resolve(currencyFormatter(result.dividedBy(1e18)))
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
 export const buyEggs = (userAddress, amount) => {
     return new Promise((resolve,reject) => {
         amount = new BigNumber(amount).multipliedBy(1e18);
@@ -132,6 +149,103 @@ export const sellEggs = (userAddress) => {
             minerContract.methods
             .sellEggs()
             .send({from: userAddress})
+            .then(result => {
+                resolve(result)
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
+
+export const getMyMinersFromContract = (userAddress) => {
+    return new Promise((resolve,reject) => {
+        try {
+            const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
+            minerContract.methods
+            .getMyMiners()
+            .call({from: userAddress})
+            .then(result => {
+                resolve(result)
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
+
+export const devFee = (amount) => {
+    return new Promise((resolve,reject) => {
+        try {
+            // amount = new BigNumber(amount).multipliedBy(1e18);
+            const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
+            minerContract.methods
+            .devFee(amount.toString())
+            .call()
+            .then(result => {
+                resolve(result)
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
+
+export const calculateEggBuySimple = (amount) => {
+    return new Promise((resolve,reject) => {
+        try {
+            amount = new BigNumber(amount).multipliedBy(1e18);
+            const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
+            minerContract.methods
+            .calculateEggBuySimple(amount.toString())
+            .call()
+            .then(result => {
+                resolve(result)
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
+
+export  const getMyEggs = () => {
+    return new Promise((resolve,reject) => {
+        try {
+            const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
+            minerContract.methods
+            .getMyEggs()
+            .call()
+            .then(result => {
+                resolve(result)
+            }).catch((err) => {
+                console.error(err)
+                reject(reject)
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
+// calculateEggSell
+export const calculateEggSell = (eggs) => {
+    return new Promise((resolve,reject) => {
+        try {
+            const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
+            minerContract.methods
+            .calculateEggSell(eggs)
+            .call()
             .then(result => {
                 resolve(result)
             }).catch((err) => {

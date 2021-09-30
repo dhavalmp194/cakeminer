@@ -7,7 +7,7 @@ import { approveAllowance, getAllMineData, hireMiners, hireMoreMiners, pocketCak
 export default function MainContent() {
     const [cakeAmount, setCakeAmount] = useState(1)
     const {walletAddress} = useSelector(state => state.wallet)
-    const {contractBalance, allowanceVal} = useSelector(state => state.minerData)
+    const {allowanceVal, contractBalance, myMiners, diging, sellExample, sellPrice, secondsUntilFull, userBalance} = useSelector(state => state.minerData)
     const dispatch = useDispatch();
     useEffect(() => {
         if(walletAddress){
@@ -56,7 +56,7 @@ export default function MainContent() {
                 <div className="container-fluid miners-tally-container">
                     <Row>
                         <Col md={12} className="text-center">
-                            <h2 className="tally-text">You have <span className="numminers">0</span> Miners</h2>
+                            <h2 className="tally-text">You have <span className="numminers">{myMiners}</span> Miners</h2>
                         </Col>
                     </Row>
                 </div>
@@ -68,10 +68,10 @@ export default function MainContent() {
                                 <h2>Digging</h2>
                             </div>
                             <div className="prod-contain-bottom centerColumn">
-                                <h2><span id="production">0</span></h2>
+                                <h2><span id="production">{diging}</span></h2>
                                 <p className="pphr">feet per hour</p>
                                 <p className="mw-250"><br />
-                                    <span id="sellsforexample"></span>
+                                    <span id="sellsforexample">{sellExample}</span>
                                 </p>
                             </div>
                         </Col>
@@ -81,9 +81,9 @@ export default function MainContent() {
                                 <h2>Mined</h2>
                             </div>
                             <div className="hold-contain-bottom centerColumn">
-                                <h2><span id="sellprice ">?</span></h2>
-                                <p className="pphr">bnb in barrel</p>
-                                <p className="mw-250"><br /><span id="timeuntilfull centerColumn">?</span><br />
+                                <h2><span id="sellprice ">{sellPrice}</span></h2>
+                                <p className="pphr">cake in barrel</p>
+                                <p className="mw-250"><br /><span id="timeuntilfull centerColumn">{secondsUntilFull}</span><br />
                                     until barrel is full</p>
                             </div>
                         </Col>
@@ -131,10 +131,10 @@ export default function MainContent() {
                 <div className="container altcolor">
                     <br />
                     <Row className="text-center">
-                        <p><span id="contractBal">Contract Balance: ?</span></p>
+                        <p><span id="contractBal">Contract Balance: {contractBalance}</span></p>
                     </Row>
                     <Row className="text-center">
-                        <p><span id="userTrx">Your Balance: ?</span></p>
+                        <p><span id="userTrx">Your Balance: {userBalance}</span></p>
                     </Row>
                 </div>
 

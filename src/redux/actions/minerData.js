@@ -1,12 +1,27 @@
 import { toast } from "react-toastify"
-import { buyEggs, contractBalance, enableEPIToken, getTokenAllowance, hatchEggs, sellEggs } from "../../utils/contractMethods/wallet"
-import { SET_CONTRACT_BALANCE, SET_ALLOWANCE } from "../types"
+import { formatEggs, formatTrxValue, translateQuantity } from "../../utils"
+import { buyEggs, calculateEggBuySimple, calculateEggSell, contractBalance, devFee, enableEPIToken, getMyEggs, getMyMinersFromContract, getTokenAllowance, hatchEggs, sellEggs, userBalance } from "../../utils/contractMethods/wallet"
+import { SET_CONTRACT_BALANCE, SET_ALLOWANCE, SET_MY_MINERS, SET_DIGGING_PER_HOUR, SET_SELL_EXAMPLE, SET_SELL_PRICE, SET_SECONDS_UNTIL_FULL, SET_USER_BALANCE } from "../types"
 import { setLaoding } from "./layout"
+import Web3 from "web3"
+const web3 = new Web3(window.ethereum);
+var lastNumEggs=-1
+const lastNumMiners=-1
+const lastSecondsUntilFull=100
+const lastHatchTime=0
+const eggstohatch1=2592000
+var lastUpdate=new Date().getTime()
+const modalID=0
+const baseNum = '';
+const currentAddr = '';
+
 
 export const getAllMineData = (userAddress) => dispatch => {
     dispatch(getContractBalance())
+    dispatch(getUserBalance(userAddress))
     dispatch(getUserAllowance(userAddress))
-    
+    dispatch(getMyMiners(userAddress))
+    dispatch(updateSellPrice(userAddress))
 }
 
 export const getContractBalance = () => async dispatch => {
@@ -20,7 +35,74 @@ export const getContractBalance = () => async dispatch => {
         console.error('%c 🍺 error: ', 'font-size:20px;background-color: #FFDD4D;color:#fff;', error);
     }
 }
+// userBalance
+export const getUserBalance = (userAddress) => async dispatch => {
+    try {
+        let rest = await userBalance(userAddress);
+        console.log('%c 🌮 rest: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', rest);
+        dispatch({
+            type: SET_USER_BALANCE,
+            payload: rest
+        })
+    } catch (error) {
+        console.error('%c 🍺 error: ', 'font-size:20px;background-color: #FFDD4D;color:#fff;', error);
+    }
+}
+export const getMyMiners = (userAddress) => async dispatch => {
+    try {
+        let res  = await getMyMinersFromContract(userAddress);
+        dispatch({
+            type: SET_MY_MINERS,
+            payload: translateQuantity(res)
+        })
+        // SET_DIGGING_PER_HOUR
+        dispatch({
+            type: SET_DIGGING_PER_HOUR,
+            payload: parseFloat(res) * 60 * 60
+        })
+        let eggs = await calculateEggBuySimple(0.1);
+        let fee = await devFee(eggs);
+        dispatch({
+            type: SET_SELL_EXAMPLE,
+            payload: `0.1 Cake Hires ${formatEggs(eggs-fee)} miners`
+        })
+    } catch (error) {
+        console.error('%c 🌮 error: ', 'font-size:20px;background-color: #F5CE50;color:#fff;', error);
+    }
+}
 
+export const updateSellPrice = (userAddress) => async dispatch => {
+    try {
+        let eggs = await getMyEggs()
+        if (eggs > 0) {
+            let sum = await calculateEggSell(eggs);
+            let fee = await devFee(sum)
+            let sellPrice = formatTrxValue(web3.utils.fromWei(sum) - web3.utils.fromWei(fee))
+            dispatch({
+                type: SET_SELL_PRICE,
+                payload: sellPrice
+            })
+        }
+        if(lastNumEggs!=eggs){
+            lastNumEggs=eggs
+            lastUpdate=new Date().getTime()
+            // updateEggNumber(eggs/eggstohatch1)//formatEggs(eggs))
+        }
+        let secondsuntilfull=eggstohatch1-eggs/lastNumMiners
+        // console.log('secondsuntilfull ',secondsuntilfull,eggsToHatch1,eggs,lastNumMiners)
+        dispatch({
+            type: SET_SECONDS_UNTIL_FULL,
+            payload: secondsuntilfull
+        })
+        
+    } catch (error) {
+        console.log('%c 🥗 error): ', 'font-size:20px;background-color: #EA7E5C;color:#fff;', error);
+        
+    }
+}
+export const secondsUntilFull = (userAddress) => async => {
+
+}
 export const getUserAllowance = (userAddress) => async dispatch => {
     try {
         let res = await getTokenAllowance(userAddress)
@@ -35,6 +117,8 @@ export const getUserAllowance = (userAddress) => async dispatch => {
     }
 }
 
+
+// send functions
 export const approveAllowance = userAddress => async dispatch =>{
     try {
         dispatch(setLaoding(true))
