@@ -69,18 +69,17 @@ export const contractBalance = () => {
     return new Promise((resolve,reject) => {
         try {
             const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
-            console.log('%c 🍬 0x43c5f4fbd2d6e6517b3d5fc44cabca899cef6e4c: ', 'font-size:20px;background-color: #EA7E5C;color:#fff;');
             minerContract.methods
             .getBalance()
             .call().then(result => {
                 result = new BigNumber(result)
                 resolve(currencyFormatter(result.dividedBy(1e18)))
             }).catch((err) => {
-                console.log(err)
+                console.error(err)
                 reject(reject)
             });
         } catch (error) {
-            console.log('%c 🌭 error: ', 'font-size:20px;background-color: #FCA650;color:#fff;', error);
+            console.error('%c 🌭 error: ', 'font-size:20px;background-color: #FCA650;color:#fff;', error);
         }
     })
 }

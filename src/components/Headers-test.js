@@ -7,7 +7,6 @@ import { injected } from "../utils/connectors"
 export default function Headers() {
     const dispatch = useDispatch();
     const { active, account, library, connector, chainId, activate, deactivate } = useWeb3React()
-    console.log('%c 🍐 active, account, chainId: ', 'font-size:20px;background-color: #ED9EC7;color:#fff;', active, account, chainId);
 
   async function connect() {
     try {

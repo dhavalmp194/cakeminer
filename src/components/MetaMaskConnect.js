@@ -22,7 +22,7 @@ export default function MetaMaskConnect({active, account, activate, deactivate})
             dispatch(setWalletType("metamask"))    
             await activate(injected)
         } catch (ex) {
-        console.log(ex)
+        console.error(ex)
         }
     }
 
@@ -32,7 +32,7 @@ export default function MetaMaskConnect({active, account, activate, deactivate})
             dispatch(setWalletType(""))
             deactivate()
         } catch (ex) {
-        console.log(ex)
+        console.error(ex)
         }
     }
     return (

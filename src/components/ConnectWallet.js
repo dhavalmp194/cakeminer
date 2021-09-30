@@ -19,11 +19,9 @@ export default function ConnectWallet() {
     const toggle = () => setModal(!modal);
     
     const { active, account:metamaskAccount, activate, deactivate } = useWeb3React()
-    console.log('%c 🍪 active, account:metamaskAccount, activate, deactivate: ', 'font-size:20px;background-color: #465975;color:#fff;', active, metamaskAccount);
     
     const { account:binanceAccount, connect, reset, status } = useWallet()
     useEffect(() => {
-        console.log('%c 🍍 !metamaskWalletDisconnected && walletType === metamask: ', 'font-size:20px;background-color: #FFDD4D;color:#fff;', !metamaskWalletDisconnected && walletType === "metamask");
         if(!metamaskWalletDisconnected && walletType === "metamask"){
             dispatch(setMetamaskWalletDisconnected(false))
             dispatch(setWalletType("metamask"))
