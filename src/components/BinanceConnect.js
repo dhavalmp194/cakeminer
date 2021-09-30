@@ -1,23 +1,11 @@
 import React, { useEffect } from 'react'
-import {useWallet} from 'react-binance-wallet'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from 'reactstrap'
 import { setBinanceWalletAdress, setBinanceWalletDisconnected, setWalletType } from '../redux/actions/wallet'
 
-export default function BinanceConnect() {
+export default function BinanceConnect({ account, connect, reset, status}) {
     const dispatch = useDispatch()
-    const { account, connect, reset, status, error, balance, chainId } = useWallet()
     const { walletAddress, binanceWalletDisconnected, walletType } = useSelector(state => state.wallet)
-    
-    useEffect(() => {
-        setTimeout(()=> {
-            if(!binanceWalletDisconnected && walletType === "binance"){
-                dispatch(setBinanceWalletDisconnected(false))
-                dispatch(setWalletType("binance"))
-                connect('bsc')
-            }
-        }, 1500)
-    }, [])
     
     useEffect(() => {
         dispatch(setBinanceWalletAdress(account))

@@ -1,7 +1,7 @@
-import {SET_WALLET, SET_BINANCE_DISCONNECTED, SET_METAMASK_DISCONNECTED, SET_WALLET_TYPE} from '../../types'
+import {SET_WALLET, SET_BINANCE_DISCONNECTED, SET_METAMASK_DISCONNECTED, SET_WALLET_TYPE} from '../types'
 
 const initialState = {
-    walletType: "",
+    walletType: "metamask",
     walletAddress: "",
     binanceWalletDisconnected: false,
     metamaskWalletDisconnected: false

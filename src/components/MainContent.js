@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap'
+import { getAllMineData } from '../redux/actions/minerData';
 
 export default function MainContent() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAllMineData())
+    }, [])
     return (
         <Container>
             <center>
@@ -10,7 +16,7 @@ export default function MainContent() {
             <div className="jumbotron">
                 <div className="container-fluid miners-tally-container">
                     <Row>
-                        <Col md={12}>
+                        <Col md={12} className="text-center">
                             <h2 className="tally-text">You have <span className="numminers">0</span> Miners</h2>
                         </Col>
                     </Row>
@@ -49,11 +55,10 @@ export default function MainContent() {
                     <Col md={6} className="nopad-left nopad-lr">
                         <div className="spend-input">
                             <p style={{color:"#354D5F",fontSize:"14px"}}>Enter BNB Amount & Click Hire Below</p>
-                            <input className="form-control" id="ethtospend" onchange="updateBuyPrice()" step="1"
+                            <input className="form-control" id="ethtospend" step="1"
                                 type="number" value="1" /> <span className="bnb-text">BNB</span>
                         </div>
                             <a className="btn btn-lg btn-buy"
-                            onclick="buyEggs2(); document.getElementById('lostmojo').pause(); document.getElementById('lostmojo2').play() "
                             role="button">
                                 Hires <span id="eggstobuy">?</span> Miners
                             </a>
@@ -61,11 +66,9 @@ export default function MainContent() {
                     <Col md={6}>
                             <p>
                                 <a className="btn btn-lg btn-hatch w-100"
-                                onclick="hatchEggs1(); document.getElementById('lostmojo').pause(); document.getElementById('lostmojo2').play()"
                                 role="button">Hire More Miners</a>
                             </p>
                         <p><a className="btn btn-lg btn-sell w-100"
-                                onclick="sellEggs(displayTransactionMessage); document.getElementById('lostmojo').pause(); document.getElementById('lostmojo3').play(); document.getElementById('sellprice')"
                                 role="button">Pocket Your BNB</a></p>
                     </Col>
                 </Row>

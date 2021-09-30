@@ -46,7 +46,7 @@ export default function Footer() {
 								<center>
 									<p>Share your BNB Miner referral link, our contract pays you a <b>10%</b>
 										referral fee when anyone uses your link to hire miners: <a
-											id="playerreflink" onclick="copyRef()">?
+											id="playerreflink">?
 											<p></p>
                                             <input id="copytextthing" style={{display:"none"}} type="text"
 												value="Hello Worldfdgerh" /></a></p>

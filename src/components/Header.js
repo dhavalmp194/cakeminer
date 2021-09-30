@@ -13,7 +13,7 @@ export default function Header() {
 					<ul className="nav navbar-nav navbar-right font-weight-normal">
 						<li>
 							<a className="social-pad">
-                                <img src="#" className="social-icons" onclick="document.getElementById('lostmojo').pause();" />
+                                <img src="#" className="social-icons"s />
 								<span className="hide-mobile">
 
 								</span>

@@ -1,28 +1,20 @@
 import React, { useEffect } from 'react'
-import { useWeb3React } from "@web3-react/core"
 import { injected } from "../utils/connectors"
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'reactstrap';
 import { setMetamaskWalletAdress, setMetamaskWalletDisconnected, setWalletType } from '../redux/actions/wallet';
 
-export default function MetaMaskConnect() {
+export default function MetaMaskConnect({active, account, activate, deactivate}) {
     const dispatch = useDispatch();
-    const { active, account, library, connector, chainId, activate, deactivate } = useWeb3React()
     const { walletAddress, metamaskWalletDisconnected, walletType } = useSelector(state => state.wallet)
     
     useEffect(() => {
-        setTimeout(()=> {
-            if(!metamaskWalletDisconnected && walletType === "metamask"){
-                dispatch(setMetamaskWalletDisconnected(false))
-                dispatch(setWalletType("metamask"))
-                activate(injected)
-            }
-        }, 1000)
+        if(!metamaskWalletDisconnected && walletType === "metamask"){
+            dispatch(setMetamaskWalletDisconnected(false))
+            dispatch(setWalletType("metamask"))
+            activate(injected)
+        }
     }, [])
-
-    useEffect(() => {
-        dispatch(setMetamaskWalletAdress(account))
-    }, [account])
 
     async function connect() {
         try {
