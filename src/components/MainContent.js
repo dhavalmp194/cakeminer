@@ -53,9 +53,9 @@ export default function MainContent() {
     }
     return (
         <Container>
-            <center>
+            {/* <center>
                 <img alt="Cake Miner" src="assets/img/bnbminer1095apr.png" href="index.html" width="100%" height="auto" />
-            </center>
+            </center> */}
             <div className="jumbotron">
                 <div className="container-fluid miners-tally-container">
                     <Row>
@@ -68,7 +68,7 @@ export default function MainContent() {
                     <Row>
                         <Col md={6} className="nopad-left nopad-lr">
                             <div className="prod-contain-top centerColumn">
-                                <img alt="Miners" className="main-img" src="assets/img/minerdigging.png" />
+                                <img alt="Miners" className="main-img" src="assets/img/minerdigging.jpg" />
                                 <h2>Digging</h2>
                             </div>
                             <div className="prod-contain-bottom centerColumn">
@@ -81,7 +81,7 @@ export default function MainContent() {
                         </Col>
                         <Col md={6} className="nopad-right nopad-lr">
                             <div className="hold-contain-top centerColumn">
-                                <img alt="Miners" className="main-img" src="assets/img/minerwithwheelbarrel.png" />
+                                <img alt="Miners" className="main-img" src="assets/img/minerwithwheelbarrel.jpg" />
                                 <h2>Mined</h2>
                             </div>
                             <div className="hold-contain-bottom centerColumn">
