@@ -1,0 +1,1 @@
+scp -i ~/Desktop/server-keys/pancakeminerfinance.pem build.tar.gz ubuntu@13.250.76.65://home/ubuntu/miner-cake/app

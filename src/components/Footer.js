@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Col, Row } from 'reactstrap'
-const BASE_URL = "http://pancakeminer.finance/"
+const BASE_URL = "https://pancakeminer.finance/"
 export default function Footer() {
 	const [refferLink, setRefferLink] = useState("")
 	const {walletAddress} = useSelector(state => state.wallet);
@@ -26,7 +26,7 @@ export default function Footer() {
 
 							<h4><u>Verified Public Contract</u></h4>
 							<p>The Cake Miner contract is public, verified and can be viewed here on <a
-									href="https://bscscan.com/address/0xce93f9827813761665ce348e33768cb1875a9704"
+									href="https://bscscan.com/address/0x8ed016bbfa12ea4d655124eafcc7509ab41ddad1#code"
 									target="_blank"><u>BSCScan</u></a>.
 							</p>
 

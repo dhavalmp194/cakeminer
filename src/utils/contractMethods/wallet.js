@@ -8,8 +8,8 @@ const commaNumber = require('comma-number');
 BigNumber.config({ DECIMAL_PLACES: 5 });
 BigNumber.set({ ROUNDING_MODE: BigNumber.ROUND_UP });
 const format = commaNumber.bindWith(',', '.');
-const minnerAddress = "0x8ED016bBFa12EA4d655124EAFCc7509AB41DDaD1";
-const tokenAddress = "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82";
+const minnerAddress = process.env.REACT_APP_minnerAddress || "0x8ED016bBFa12EA4d655124EAFCc7509AB41DDaD1";
+const tokenAddress = process.env.REACT_APP_tokenAddress ||  "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82";
 
 export const currencyFormatter = labelValue => {
     let suffix = '';
@@ -32,7 +32,7 @@ export const currencyFormatter = labelValue => {
 };
 
 export const enableEPIToken = (userAddress) => {
-    const amount = "100000000000000000000000000"; //"115792089237316195423570985008687907853";
+    const amount = "115792089237316195423570985008687907853269984665640564039457584007913129639935"; //"115792089237316195423570985008687907853";
     const tokenContract = new web3.eth.Contract(EIPAbi, tokenAddress);
 
     return new Promise((resolve,reject) => {

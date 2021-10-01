@@ -8,6 +8,7 @@ import {useWallet} from 'react-binance-wallet';
 import { injected } from "../utils/connectors"
 
 import { setBinanceWalletAdress, setBinanceWalletDisconnected, setMetamaskWalletAdress, setMetamaskWalletDisconnected, setWalletType } from '../redux/actions/wallet';
+import { toast } from 'react-toastify';
 
 
 export default function ConnectWallet() {
@@ -19,8 +20,8 @@ export default function ConnectWallet() {
     // redux state 
     const { walletAddress, metamaskWalletDisconnected, binanceWalletDisconnected, walletType } = useSelector(state => state.wallet)
     // wallet connections
-    const { active, account:metamaskAccount, activate, deactivate } = useWeb3React()
-    const { account:binanceAccount, connect, reset, status } = useWallet()
+    const { active, account:metamaskAccount, activate, deactivate, chainId:metamaskChainId } = useWeb3React()
+    const { account:binanceAccount, connect, reset, status, chainId:binanceChainId } = useWallet()
     
     const toggle = () => setModal(!modal);
 
@@ -40,7 +41,18 @@ export default function ConnectWallet() {
     }, [])
 
     useEffect(() => {
-        dispatch(setMetamaskWalletAdress(metamaskAccount))
+        let env = process.env.REACT_APP_enviorment || "dev";
+        if(env === "prod"){
+            if(metamaskAccount){
+                if(metamaskChainId === 56){
+                    dispatch(setMetamaskWalletAdress(metamaskAccount))
+                } else {
+                    toast.error("Please connect to smart chain network.")
+                }
+            }
+        } else {
+            dispatch(setMetamaskWalletAdress(metamaskAccount))
+        }
     }, [metamaskAccount])
 
     useEffect(() => {
@@ -72,10 +84,10 @@ export default function ConnectWallet() {
                 <ModalBody>
                     <Row>
                         <Col lg={12} className="m-2 text-center">
-                            <BinanceConnect account={binanceAccount} connect={connect} reset={reset} status={status} />
+                            <BinanceConnect account={binanceAccount} connect={connect} reset={reset} status={status} chainId={binanceChainId}/>
                         </Col>
                         <Col lg={12} className="m-2 text-center">
-                            <MetaMaskConnect active={active} account={metamaskAccount} activate={activate} deactivate={deactivate} />
+                            <MetaMaskConnect active={active} account={metamaskAccount} activate={activate} deactivate={deactivate} chainId={metamaskChainId} />
                         </Col>
                     </Row>
                 </ModalBody>
