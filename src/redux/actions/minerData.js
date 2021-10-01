@@ -158,7 +158,7 @@ export const hireMiners = (userAddress, amount) => async dispatch => {
         let res = await buyEggs(userAddress, amount)
         dispatch(getAllMineData(userAddress))
         console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
-        toast.success("Miner highered")
+        toast.success("Miner hired")
         dispatch(setLaoding(false))
         
     } catch (error) {
