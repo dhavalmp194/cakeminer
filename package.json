@@ -28,8 +28,8 @@
     "build": "env-cmd -f ./.env react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:production": "env-cmd -f ./.env-prod npm run-script start",
-    "build:production": "env-cmd -f ./.env-prod npm run-script build"
+    "start:production": "env-cmd -f ./.env.prod npm run-script start",
+    "build:production": "env-cmd -f ./.env.prod npm run-script build"
   },
   "eslintConfig": {
     "extends": [

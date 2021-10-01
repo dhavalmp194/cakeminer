@@ -41,7 +41,7 @@ export default function ConnectWallet() {
     }, [])
 
     useEffect(() => {
-        let env = "prod";
+        let env = process.env.REACT_APP_enviorment || "prod";
         console.log('%c 🥕 process.env: ', 'font-size:20px;background-color: #42b983;color:#fff;', process.env);
         console.log('%c 🥥 env: ', 'font-size:20px;background-color: #ED9EC7;color:#fff;', env);
         if(env === "prod"){
