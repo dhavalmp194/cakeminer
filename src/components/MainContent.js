@@ -5,10 +5,16 @@ import { Col, Container, Row } from 'reactstrap'
 import { approveAllowance, btnEggVal, getAllMineData, hireMiners, hireMoreMiners, pocketCake } from '../redux/actions/minerData';
 
 export default function MainContent() {
+    const query = new URLSearchParams(window.location.search)
+    console.log('%c 🥩 query: ', 'font-size:20px;background-color: #B03734;color:#fff;', query);
     const [cakeAmount, setCakeAmount] = useState(1)
+    const [userRef, setUserRef] = useState(query.get("ref"))
     const {walletAddress} = useSelector(state => state.wallet)
     const {allowanceVal, contractBalance, myMiners, diging, sellExample, sellPrice, secondsUntilFull, userBalance, btnEgg} = useSelector(state => state.minerData)
     const dispatch = useDispatch();
+    useEffect(()=>{
+        setUserRef(query.get("ref"))
+    },[query.get("ref")])
     useEffect(() => {
         if(walletAddress){
             dispatch(getAllMineData(walletAddress))
@@ -33,14 +39,23 @@ export default function MainContent() {
         } else if(cakeAmount <= 0){
             toast.error("please Provide cake amount.")
         } else {
-            dispatch(hireMiners(walletAddress, cakeAmount))
+            let address = walletAddress
+            if(userRef){
+                address = userRef
+            }
+            console.log('%c 🍅 address, cakeAmount: ', 'font-size:20px;background-color: #42b983;color:#fff;', address, cakeAmount);
+            dispatch(hireMiners(address, cakeAmount))
         }
     }
     const handleHireMoreMiner = () => {
         if(!walletAddress){
             toast.error("please Provide a wallet address")
         } else {
-            dispatch(hireMoreMiners(walletAddress))
+            let address = walletAddress
+            if(userRef){
+                address = userRef
+            }
+            dispatch(hireMoreMiners(address))
         }
     }
     // pocketCake
