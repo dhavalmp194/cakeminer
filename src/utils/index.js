@@ -17,7 +17,6 @@ export const translateQuantity = (quantity,precision) => {
       return (quantity).toFixed(2)
     }
 
-    //console.log('??quantity ',typeof quantity)
     if(quantity>1000000){
         modifier=' Million'
         finalquantity=quantity/1000000

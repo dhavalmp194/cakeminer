@@ -6,7 +6,6 @@ import { approveAllowance, btnEggVal, getAllMineData, hireMiners, hireMoreMiners
 
 export default function MainContent() {
     const query = new URLSearchParams(window.location.search)
-    console.log('%c 🥩 query: ', 'font-size:20px;background-color: #B03734;color:#fff;', query);
     const [cakeAmount, setCakeAmount] = useState(1)
     const [userRef, setUserRef] = useState(query.get("ref"))
     const {walletAddress} = useSelector(state => state.wallet)
@@ -26,10 +25,12 @@ export default function MainContent() {
         }
     },[cakeAmount])
     const handleApproval = () => {
-        if(!walletAddress){
-            toast.error("please Provide a wallet address")
-        }else{
-            dispatch(approveAllowance(walletAddress))
+        if(!allowanceVal){
+            if(!walletAddress){
+                toast.error("please Provide a wallet address")
+            }else{
+                dispatch(approveAllowance(walletAddress))
+            }
         }
     }
     // const hireMiners
@@ -43,7 +44,6 @@ export default function MainContent() {
             if(userRef){
                 address = userRef
             }
-            console.log('%c 🍅 address, cakeAmount: ', 'font-size:20px;background-color: #42b983;color:#fff;', address, cakeAmount);
             dispatch(hireMiners(address, cakeAmount))
         }
     }
@@ -110,32 +110,35 @@ export default function MainContent() {
                 </Container>
 
                 <Row>
-                    <Col md={6} className="nopad-left nopad-lr">
+                    <Col md={12}>
                         <div className="spend-input">
                             <p style={{color:"#354D5F",fontSize:"14px"}}>Enter Cake Amount & Click Hire Below</p>
                             <input className="form-control" id="ethtospend" step="1"
                                 type="number" value={cakeAmount}  onChange={e => setCakeAmount(e.target.value)} /> <span className="bnb-text">Cake</span>
                         </div>
-                        {
-                            allowanceVal ?
-                                <a className="btn btn-lg btn-buy"
-                                role="button" onClick={handleHireMiner}>
-                                    Hires <span id="eggstobuy">{btnEgg}</span> Miners
-                                </a> :
-                                <a className="btn btn-lg btn-buy" onClick={handleApproval}>
-                                    Approve
-                                </a>
-                        }
                     </Col>
                     <Col md={6}>
-                            <p>
-                                <a 
-                                    className="btn btn-lg btn-hatch w-100"
-                                    onClick={handleHireMoreMiner}
-                                    role="button">
-                                        Hire More Miners
-                                </a>
-                            </p>
+                        <p>
+                            <a className="btn btn-lg btn-hatch w-100"
+                            role="button" onClick={handleHireMiner}>
+                                Hires <span id="eggstobuy">{btnEgg}</span> Miners
+                            </a>
+                        </p>
+                        <p>
+                            <a className="btn btn-lg btn-sell w-100" onClick={handleApproval}>
+                                Approve
+                            </a>
+                        </p>
+                    </Col>
+                    <Col md={6}>
+                        <p>
+                            <a 
+                                className="btn btn-lg btn-hatch w-100"
+                                onClick={handleHireMoreMiner}
+                                role="button">
+                                    Hire More Miners
+                            </a>
+                        </p>
                         <p>
                             <a 
                                 className="btn btn-lg btn-sell w-100"

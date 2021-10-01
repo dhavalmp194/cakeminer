@@ -40,7 +40,6 @@ export const getContractBalance = () => async dispatch => {
 export const getUserBalance = (userAddress) => async dispatch => {
     try {
         let rest = await userBalance(userAddress);
-        console.log('%c 🌮 rest: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', rest);
         dispatch({
             type: SET_USER_BALANCE,
             payload: rest
@@ -83,7 +82,7 @@ export const btnEggVal = (amount) => async dispatch => {
         })
         
     } catch (error) {
-        console.log('%c 🍯 error: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', error);
+        console.error('%c 🍯 error: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', error);
         
     }
 }
@@ -108,14 +107,13 @@ export const updateSellPrice = (userAddress) => async dispatch => {
         let lastNumMinerss = await getMyMinersFromContract(userAddress)
         let secondsuntilfull=eggstohatch1-eggs/lastNumMinerss
         
-        // console.log('secondsuntilfull ',secondsuntilfull,eggsToHatch1,eggs,lastNumMiners)
         dispatch({
             type: SET_SECONDS_UNTIL_FULL,
             payload: secondsToString(secondsuntilfull)
         })
         
     } catch (error) {
-        console.log('%c 🥗 error): ', 'font-size:20px;background-color: #EA7E5C;color:#fff;', error);
+        console.error('%c 🥗 error): ', 'font-size:20px;background-color: #EA7E5C;color:#fff;', error);
         
     }
 }
@@ -151,13 +149,11 @@ export const approveAllowance = userAddress => async dispatch =>{
 }
 
 export const hireMiners = (userAddress, amount) => async dispatch => {
-    console.log('%c 🍮 userAddress, amount: ', 'font-size:20px;background-color: #33A5FF;color:#fff;', userAddress, amount);
     try {
         dispatch(setLaoding(true))
         let res = await buyEggs(userAddress, amount)
         dispatch(getAllMineData(userAddress))
-        console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
-        toast.success("Miner hired")
+        toast.success("Miners hired")
         dispatch(setLaoding(false))
         
     } catch (error) {
@@ -172,7 +168,6 @@ export const hireMoreMiners = (userAddress) => async dispatch => {
     try {
         dispatch(setLaoding(true))
         let res = await hatchEggs(userAddress)
-        console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
         toast.success("More miners hired")
         dispatch(getAllMineData(userAddress))
         dispatch(setLaoding(false))
@@ -189,7 +184,6 @@ export const pocketCake = (userAddress) => async dispatch => {
     try {
         dispatch(setLaoding(true))
         let res = await sellEggs(userAddress)
-        console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
         toast.success("Pocket your cake successful")
         dispatch(getAllMineData(userAddress))
         dispatch(setLaoding(false))

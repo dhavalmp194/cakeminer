@@ -91,7 +91,6 @@ export const userBalance = (userAddress) => {
             minerContract.methods.balanceOf(userAddress)
             .call({from: userAddress}).then(result => {
                 result = new BigNumber(result)
-                console.log('%c 🍥 result: ', 'font-size:20px;background-color: #EA7E5C;color:#fff;', result);
                 resolve(currencyFormatter(result.dividedBy(1e18)))
             }).catch((err) => {
                 console.error(err)
@@ -105,7 +104,6 @@ export const userBalance = (userAddress) => {
 export const buyEggs = (userAddress, amount) => {
     return new Promise((resolve,reject) => {
         // amount = new BigNumber(amount).multipliedBy(1e18);
-        console.log('%c 🍌 amount: ', 'font-size:20px;background-color: #93C0A4;color:#fff;', amount*(10**18));
         try {
             const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
             minerContract.methods
