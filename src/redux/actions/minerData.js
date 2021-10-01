@@ -1,5 +1,5 @@
 import { toast } from "react-toastify"
-import { formatEggs, formatTrxValue, translateQuantity } from "../../utils"
+import { formatEggs, formatTrxValue, translateQuantity, secondsToString } from "../../utils"
 import { buyEggs, calculateEggBuySimple, calculateEggSell, contractBalance, devFee, enableEPIToken, getMyEggs, getMyMinersFromContract, getTokenAllowance, hatchEggs, sellEggs, userBalance } from "../../utils/contractMethods/wallet"
 import { SET_CONTRACT_BALANCE, SET_ALLOWANCE, SET_MY_MINERS, SET_DIGGING_PER_HOUR, SET_SELL_EXAMPLE, SET_SELL_PRICE, SET_SECONDS_UNTIL_FULL, SET_USER_BALANCE, SET_BTN_TXT } from "../types"
 import { setLaoding } from "./layout"
@@ -62,7 +62,11 @@ export const getMyMiners = (userAddress) => async dispatch => {
             payload: translateQuantity(parseFloat(res) * 60 * 60)
         })
         let eggs = await calculateEggBuySimple(0.1);
+        console.log('%c 🥖 eggs: ', 'font-size:20px;background-color: #93C0A4;color:#fff;', eggs);
         let fee = await devFee(eggs);
+        console.log('%c 🍥 fee: ', 'font-size:20px;background-color: #465975;color:#fff;', fee);
+        console.log('%c 🍏 fee: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', formatEggs(eggs-fee));
+        
         dispatch({
             type: SET_SELL_EXAMPLE,
             payload: `0.1 Cake Hires ${formatEggs(eggs-fee)} miners`
@@ -75,9 +79,10 @@ export const btnEggVal = (amount) => async dispatch => {
     try {
         // amount = new BigNumber(amount).multipliedBy(1e16) 
         let eggs = await calculateEggBuySimple(amount);
+        let fee = await devFee(eggs);
         dispatch({
             type: SET_BTN_TXT,
-            payload: eggs
+            payload: formatEggs(eggs-fee)
         })
         
     } catch (error) {
@@ -107,7 +112,7 @@ export const updateSellPrice = (userAddress) => async dispatch => {
         // console.log('secondsuntilfull ',secondsuntilfull,eggsToHatch1,eggs,lastNumMiners)
         dispatch({
             type: SET_SECONDS_UNTIL_FULL,
-            payload: secondsuntilfull
+            payload: secondsToString(secondsuntilfull)
         })
         
     } catch (error) {
@@ -150,7 +155,8 @@ export const hireMiners = (userAddress, amount) => async dispatch => {
     console.log('%c 🍮 userAddress, amount: ', 'font-size:20px;background-color: #33A5FF;color:#fff;', userAddress, amount);
     try {
         dispatch(setLaoding(true))
-        amount = new BigNumber(amount).multipliedBy(1e16) 
+        // amount = new BigNumber(amount).multipliedBy(1e16) 
+        console.log('%c 🍖 amount: ', 'font-size:20px;background-color: #FCA650;color:#fff;', amount);
         let res = await buyEggs(userAddress, amount.toString())
         dispatch(getAllMineData(userAddress))
         console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);

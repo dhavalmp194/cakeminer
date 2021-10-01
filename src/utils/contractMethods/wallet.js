@@ -104,11 +104,12 @@ export const userBalance = (userAddress) => {
 }
 export const buyEggs = (userAddress, amount) => {
     return new Promise((resolve,reject) => {
-        amount = new BigNumber(amount).multipliedBy(1e18);
+        // amount = new BigNumber(amount).multipliedBy(1e18);
+        console.log('%c 🍌 amount: ', 'font-size:20px;background-color: #93C0A4;color:#fff;', amount*(10**18));
         try {
             const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
             minerContract.methods
-            .buyEggs(userAddress, amount.toString())
+            .buyEggs(userAddress, (amount*(10**18)).toString())
             .send({from: userAddress})
             .then(result => {
                 result = new BigNumber(result)
