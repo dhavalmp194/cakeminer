@@ -15,6 +15,10 @@ a {
 a:hover{
   text-decoration: none;
 }
+.navbar{
+  padding-top: 1.5rem !important;
+  padding-bottom: 2.5rem !important;
+}
 .navbar-brand {
   float: left;
   height: inherit;
