@@ -59,13 +59,10 @@ export const getMyMiners = (userAddress) => async dispatch => {
         // SET_DIGGING_PER_HOUR
         dispatch({
             type: SET_DIGGING_PER_HOUR,
-            payload: translateQuantity(parseFloat(res) * 60 * 60)
+            payload: formatEggs(parseFloat(res) * 60 * 60)
         })
         let eggs = await calculateEggBuySimple(0.1);
-        console.log('%c 🥖 eggs: ', 'font-size:20px;background-color: #93C0A4;color:#fff;', eggs);
         let fee = await devFee(eggs);
-        console.log('%c 🍥 fee: ', 'font-size:20px;background-color: #465975;color:#fff;', fee);
-        console.log('%c 🍏 fee: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', formatEggs(eggs-fee));
         
         dispatch({
             type: SET_SELL_EXAMPLE,
@@ -93,7 +90,7 @@ export const btnEggVal = (amount) => async dispatch => {
 
 export const updateSellPrice = (userAddress) => async dispatch => {
     try {
-        let eggs = await getMyEggs()
+        let eggs = await getMyEggs(userAddress)
         if (eggs > 0) {
             let sum = await calculateEggSell(eggs);
             let fee = await devFee(sum)
@@ -108,7 +105,9 @@ export const updateSellPrice = (userAddress) => async dispatch => {
             lastUpdate=new Date().getTime()
             // updateEggNumber(eggs/eggstohatch1)//formatEggs(eggs))
         }
-        let secondsuntilfull=eggstohatch1-eggs/lastNumMiners
+        let lastNumMinerss = await getMyMinersFromContract(userAddress)
+        let secondsuntilfull=eggstohatch1-eggs/lastNumMinerss
+        
         // console.log('secondsuntilfull ',secondsuntilfull,eggsToHatch1,eggs,lastNumMiners)
         dispatch({
             type: SET_SECONDS_UNTIL_FULL,
@@ -191,7 +190,7 @@ export const pocketCake = (userAddress) => async dispatch => {
         dispatch(setLaoding(true))
         let res = await sellEggs(userAddress)
         console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
-        toast.success("Poket your cake successful")
+        toast.success("Pocket your cake successful")
         dispatch(getAllMineData(userAddress))
         dispatch(setLaoding(false))
         

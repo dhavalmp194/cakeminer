@@ -221,13 +221,13 @@ export const calculateEggBuySimple = (amount) => {
     })
 }
 
-export  const getMyEggs = () => {
+export  const getMyEggs = (userAddress) => {
     return new Promise((resolve,reject) => {
         try {
             const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
             minerContract.methods
             .getMyEggs()
-            .call()
+            .call({from : userAddress})
             .then(result => {
                 resolve(result)
             }).catch((err) => {
