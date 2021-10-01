@@ -173,7 +173,7 @@ export const hireMoreMiners = (userAddress) => async dispatch => {
         dispatch(setLaoding(true))
         let res = await hatchEggs(userAddress)
         console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
-        toast.success("More miner hired")
+        toast.success("More miners hired")
         dispatch(getAllMineData(userAddress))
         dispatch(setLaoding(false))
         
