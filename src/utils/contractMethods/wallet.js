@@ -8,8 +8,8 @@ const commaNumber = require('comma-number');
 BigNumber.config({ DECIMAL_PLACES: 5 });
 BigNumber.set({ ROUNDING_MODE: BigNumber.ROUND_UP });
 const format = commaNumber.bindWith(',', '.');
-const minnerAddress = "0x43c5f4fbd2d6e6517b3d5fc44cabca899cef6e4c";
-const tokenAddress = "0x2dA7daE64D1cf0122096aA52A67C4bCA363Cc372";
+const minnerAddress = "0x8ED016bBFa12EA4d655124EAFCc7509AB41DDaD1";
+const tokenAddress = "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82";
 
 export const currencyFormatter = labelValue => {
     let suffix = '';

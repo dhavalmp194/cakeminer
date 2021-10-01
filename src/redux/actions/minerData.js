@@ -155,9 +155,7 @@ export const hireMiners = (userAddress, amount) => async dispatch => {
     console.log('%c 🍮 userAddress, amount: ', 'font-size:20px;background-color: #33A5FF;color:#fff;', userAddress, amount);
     try {
         dispatch(setLaoding(true))
-        // amount = new BigNumber(amount).multipliedBy(1e16) 
-        console.log('%c 🍖 amount: ', 'font-size:20px;background-color: #FCA650;color:#fff;', amount);
-        let res = await buyEggs(userAddress, amount.toString())
+        let res = await buyEggs(userAddress, amount)
         dispatch(getAllMineData(userAddress))
         console.log('%c 🌮 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
         toast.success("Miner highered")
