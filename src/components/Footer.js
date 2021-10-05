@@ -43,13 +43,13 @@ export default function Footer() {
 
 					</Col>
 
-					<Col lg={12}>
+					{/* <Col lg={12}>
 						<center>
 							<p><span><a href="instructions.html" target="_blank"><img alt="How To Start Mining"
 											src="assets/img/quesionmarkguy.png" width="15%" height="auto" /><b>How To
 											Start Mining</b></a></span></p>
 						</center>
-					</Col>
+					</Col> */}
 					<div className="">
 						<Col md={12}>
 							<font style={{fontSize:"14px"}}>

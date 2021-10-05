@@ -5,7 +5,6 @@ export default function Header() {
     return (
         <nav className="navbar navbar-default">
 			<div className="container-fluid">
-				<div></div>
 				<div className="navbar-header">
 				</div>
 

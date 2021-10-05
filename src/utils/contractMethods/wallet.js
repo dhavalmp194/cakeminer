@@ -101,13 +101,13 @@ export const userBalance = (userAddress) => {
         }
     })
 }
-export const buyEggs = (userAddress, amount) => {
+export const buyEggs = (address, amount, userAddress) => {
     return new Promise((resolve,reject) => {
         // amount = new BigNumber(amount).multipliedBy(1e18);
         try {
             const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
             minerContract.methods
-            .buyEggs(userAddress, (amount*(10**18)).toString())
+            .buyEggs(address, (amount*(10**18)).toString())
             .send({from: userAddress})
             .then(result => {
                 result = new BigNumber(result)
@@ -122,12 +122,13 @@ export const buyEggs = (userAddress, amount) => {
     })
 }
 
-export const hatchEggs = (userAddress) => {
+export const hatchEggs = (address, userAddress) => {
+    console.log('%c 🍛 address, userAddress: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', address, userAddress);
     return new Promise((resolve,reject) => {
         try {
             const minerContract = new web3.eth.Contract(MinerAbi, minnerAddress);
             minerContract.methods
-            .hatchEggs(userAddress)
+            .hatchEggs(address)
             .send({from: userAddress})
             .then(result => {
                 resolve(result)

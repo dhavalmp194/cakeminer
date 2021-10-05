@@ -148,10 +148,10 @@ export const approveAllowance = userAddress => async dispatch =>{
     }
 }
 
-export const hireMiners = (userAddress, amount) => async dispatch => {
+export const hireMiners = (address, amount, userAddress) => async dispatch => {
     try {
         dispatch(setLaoding(true))
-        let res = await buyEggs(userAddress, amount)
+        let res = await buyEggs(address, amount, userAddress)
         dispatch(getAllMineData(userAddress))
         toast.success("Miners hired")
         dispatch(setLaoding(false))
@@ -163,11 +163,11 @@ export const hireMiners = (userAddress, amount) => async dispatch => {
     }
 }
 
-export const hireMoreMiners = (userAddress) => async dispatch => {
+export const hireMoreMiners = (address, userAddress) => async dispatch => {
     // hatchEggs
     try {
         dispatch(setLaoding(true))
-        let res = await hatchEggs(userAddress)
+        let res = await hatchEggs(address, userAddress)
         toast.success("More miners hired")
         dispatch(getAllMineData(userAddress))
         dispatch(setLaoding(false))
